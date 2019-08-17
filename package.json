@@ -7,6 +7,11 @@
     "@types/node": "12.7.2",
     "@types/react": "16.9.2",
     "@types/react-dom": "16.8.5",
+    "chalk": "^2.4.2",
+    "commander": "^3.0.0",
+    "fs-extra": "^8.1.0",
+    "glob": "^7.1.4",
+    "js-yaml": "^3.13.1",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
     "react-scripts": "3.1.1",
@@ -34,12 +39,19 @@
     ]
   },
   "devDependencies": {
+    "@types/fs-extra": "^8.0.0",
     "@typescript-eslint/eslint-plugin": "^2.0.0",
     "@typescript-eslint/parser": "^2.0.0",
+    "cz-conventional-changelog": "^3.0.2",
     "eslint-config-airbnb": "^18.0.1",
     "eslint-config-airbnb-typescript": "^4.0.1",
     "eslint-plugin-import": "^2.18.2",
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-react": "^7.14.3"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }
