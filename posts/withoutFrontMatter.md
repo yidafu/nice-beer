@@ -1,8 +1,8 @@
 ---
 title: withoutFrontMatter
-author: dov yih
-created: 2019-7-0
-modified: 2019-7-0
+author: Dov Yih
+created: '2019-08-18 11:10:20'
+modified: '2019-08-18 11:10:20'
 ---
 
 # Funny Situations
