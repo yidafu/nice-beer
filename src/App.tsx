@@ -1,10 +1,22 @@
 import React from 'react';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import Index from './pages/index';
+import PostPage from './pages/post';
 import './App.css';
+import { getConfig, getContent } from './store/actions';
 
-const App: React.FC = () => (
-  <div className="App">
-    <h1>Let&apos;s Drink A Cup Of Nice Beer!</h1>
-  </div>
-);
+const App: React.FC = () => {
+  const dispatch = useDispatch();
+  dispatch(getConfig());
+  dispatch(getContent());
+
+  return (
+    <Router>
+      <Route path="/" exact component={Index} />
+      <Route path="/post/:filename" component={PostPage} />
+    </Router>
+  );
+};
 
 export default App;

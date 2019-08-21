@@ -2,7 +2,7 @@
 type: beer
 
 # site title
-title: Dov Yih's Blob
+title: Dov Yih's Blog
 
 author: Dov Yih
 
@@ -13,7 +13,11 @@ directories:
 # two mode: gitbook, JSON
 # gitbook mode will genarate SUMMARY.md with a litle data.
 # JSON mode will genarate content.json with a lots of data.
-mode: gitbook
+mode: json
 
 # two value: created, modified
 sortBy: created
+
+github:
+  user: yidafu
+  repo: yidafu.github.io
