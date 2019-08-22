@@ -18,7 +18,7 @@ const Navbar: React.FC<INavbarProps> = props => (
       </h1>
       <div className={styles.navbarLinks}>
         <Link to="/">Home</Link>
-        <Link to="/about-me">About Me</Link>
+        {/* <Link to="/about-me">About Me</Link> */}
         <a href={`https://www.github.com/${githubConfig.user}`}>Github</a>
       </div>
     </div>
