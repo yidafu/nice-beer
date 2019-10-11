@@ -14,4 +14,4 @@ require('@babel/register')({
   cache: false,
 });
 
-require('./tools.ts');
+require('./drink.ts');

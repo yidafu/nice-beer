@@ -18,4 +18,4 @@ require('@babel/register')({
   cache: false,
 });
 
-require('./tools-init.ts');
+require('./drink-init.ts');

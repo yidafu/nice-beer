@@ -5,7 +5,7 @@ import fs from 'fs';
 import fse from 'fs-extra';
 import glob from 'glob';
 import yaml from 'js-yaml';
-import MarkdownPost, from './MarkdownPost.ts';
+import MarkdownPost from './MarkdownPost.ts';
 import {
   CURR_PATH, DRINK_YAML, CONTENT_JSON, SUMMARY_MD,
 } from './constant';
@@ -32,6 +32,7 @@ export function hasFrontMatter(content) {
 
 export const warning = chalk.keyword('orange');
 export const error = chalk.keyword('red');
+export const success = chalk.keyword('green');
 
 export function logErrorAndExit(message: string) {
   console.error(error(message));
@@ -39,7 +40,7 @@ export function logErrorAndExit(message: string) {
 }
 
 export function formatDate(dataStr: Date) {
-  return dayjs(dataStr).format('YYYY-MM-DD HH:mm:ss');
+  return dayjs(dataStr).format('YYYY-MM-DD');
 }
 
 function isRoot(filepath) {
