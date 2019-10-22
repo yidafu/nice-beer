@@ -22,7 +22,7 @@ switch (args.length) {
     break;
   }
   default: {
-    fileName = args.map(String.prototype.toLocaleLowerCase).join('-');
+    fileName = args.map(s => s.toLowerCase()).join('-');
   }
 }
 
@@ -46,7 +46,6 @@ status: draft
 # ${fileName.split('-').map(capitalization).join(' ')}
 
 /* content here */
-
 `
 
 const filePath = `${CURR_PATH}/${today}-${fileName}.md`;
