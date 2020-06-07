@@ -1,0 +1,23 @@
+# drink type
+type: beer
+
+# site title
+title: Dov Yih's Blog
+
+author: Dov Yih
+
+# where the posts come from
+directories: 
+  - posts
+
+# two mode: gitbook, JSON
+# gitbook mode will genarate SUMMARY.md with a litle data.
+# JSON mode will genarate content.json with a lots of data.
+mode: json
+
+# two value: created, modified
+sortBy: created
+
+github:
+  user: yidafu
+  repo: yidafu.github.io
