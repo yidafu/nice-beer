@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@dovyih/nice-drink-cli": "^0.0.1",
     "@types/jest": "24.0.17",
     "@types/js-yaml": "^3.12.1",
     "@types/marked": "^0.6.5",

@@ -1190,6 +1190,18 @@
   resolved "https://registry.npm.taobao.org/@csstools/normalize.css/download/@csstools/normalize.css-10.1.0.tgz#f0950bba18819512d42f7197e56c518aa491cf18"
   integrity sha1-8JULuhiBlRLUL3GX5WxRiqSRzxg=
 
+"@dovyih/nice-drink-cli@^0.0.1":
+  version "0.0.1"
+  resolved "https://registry.npmjs.org/@dovyih/nice-drink-cli/-/nice-drink-cli-0.0.1.tgz#3a89d913b3349a1585b203f78f7a1b1b95f06f8b"
+  integrity sha512-9ijZ4FzTtMTrkorr8BR+qk/DZiaNazhKgNFW74HgdOjfPpPWchZ71GPxqpGANmuFSFFbnMg1A7G/3wMbf3xEfg==
+  dependencies:
+    chalk "^2.4.2"
+    commander "^3.0.0"
+    dayjs "^1.8.15"
+    fs-extra "^8.1.0"
+    glob "^7.1.4"
+    js-yaml "^3.13.1"
+
 "@hapi/address@2.x.x":
   version "2.1.4"
   resolved "https://registry.npm.taobao.org/@hapi/address/download/@hapi/address-2.1.4.tgz#5d67ed43f3fd41a69d4b9ff7b56e7c0d1d0a81e5"

@@ -1,7 +1,7 @@
 import {
   put, takeEvery, call, delay, select,
 } from 'redux-saga/effects';
-import { parseMarkdown } from 'nice-drink/lib/utils.js';
+import { parseMarkdown } from '@dovyih/nice-drink-cli/lib/utils.js';
 import { getContent, getPost } from '../../network';
 import { setContent, setPost, notFoundPost } from './actions';
 import { GET_CONTENT_JSON_REQ, GET_POST_REQ, GetPostAction } from './types';
