@@ -3,7 +3,7 @@ import { getBaseUrl } from './utils';
 
 export default function parseMarkdown(src: string) {
   const tokens = marked.lexer(src);
-  const imgLingReg = /\!\[\]\((.+?)\)/;
+  const imgLingReg = /!\[\]\((.+?)\)/;
   tokens.forEach(token => {
     if (token.type === 'paragraph') {
       // const res = imgLingReg.exec();
