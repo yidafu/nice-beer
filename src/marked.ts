@@ -7,7 +7,8 @@ export default function parseMarkdown(src: string) {
   tokens.forEach(token => {
     if (token.type === 'paragraph') {
       // const res = imgLingReg.exec();
-      token.text = token.text.replace(imgLingReg, (match, p1) => `![](${getBaseUrl() + p1.substring(1)})`);
+      // eslint-disable-next-line no-param-reassign
+      token.text = token.text.replace(imgLingReg, (match, p1) => `![](${getBaseUrl()}/posts${p1.substring(1)})`);
     }
   });
   return marked.Parser.parse(
