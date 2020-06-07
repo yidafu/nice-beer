@@ -93,6 +93,9 @@ export function getAllMDFilePath() {
         );
       }
     });
+    filePaths.forEach(function(filepath) {
+      console.log('will read file: ', filepath);
+    });
     return filePaths;
   }
   logErrorAndExit(
@@ -101,7 +104,7 @@ export function getAllMDFilePath() {
 }
 
 
-export function genSummaryMD(postPromises: Promise<MarkdownPost>) {
+export function genSummaryMD(postPromises: Promise<MarkdownPost>[]) {
   const summaryMd = ['# SUMMARY\n'];
   Promise.all(postPromises).then(posts => {
     posts.sort((pre, next) => new Date(next.frontMatter.created).getTime()
@@ -119,15 +122,18 @@ export function genSummaryMD(postPromises: Promise<MarkdownPost>) {
   });
 }
 
-export function genContentJSON(postPromises: Promise<MarkdownPost>) {
+export function genContentJSON(postPromises: Promise<MarkdownPost>[]) {
   const config = getConfig();
   const contentJSON = {
     title: config.title,
     content: [],
   };
-  Promise.all(postPromises).then(posts => {
+  Promise.all(postPromises).then((posts: MarkdownPost[]) => {
     posts.sort((pre, next) => new Date(next.frontMatter.created).getTime()
-        - new Date(pre.frontMatter.created).getTime()).forEach(post => {
+      - new Date(pre.frontMatter.created).getTime()
+    ).filter(post => {
+      return post.frontMatter.status === 'publish';
+    }).forEach(post => {
       const url = (path.relative(CURR_PATH, post.filePath)).replace('\\', '/');
       const fileName = path.parse(url).name;
       contentJSON.content.push({ ...post.frontMatter, filePath: url, fileName });

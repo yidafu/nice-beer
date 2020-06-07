@@ -12,6 +12,7 @@ export interface FrontMatter {
   author: string;
   created: string;
   modified: string;
+  status: 'draft' | 'publish';
 }
 
 const FRONT_MATTER_SEPARATOR = '---';
