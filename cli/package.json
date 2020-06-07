@@ -1,8 +1,9 @@
 {
-  "name": "nice-drink",
+  "name": "@dovyih/nice-drink-cli",
   "version": "0.0.1",
   "description": "nice drick cli",
   "main": "bin/drink.js",
+  "files": ["bin", "lib"],
   "author": "yidafu",
   "license": "MIT",
   "private": false,
