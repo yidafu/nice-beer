@@ -1,0 +1,25 @@
+{
+  "files": {
+    "main.css": "https://cdn.jsdelivr.net/gh/yidafu/nice-beer@dist/build/static/css/main.d177da67.chunk.css",
+    "main.js": "https://cdn.jsdelivr.net/gh/yidafu/nice-beer@dist/build/static/js/main.0225c12e.chunk.js",
+    "main.js.map": "https://cdn.jsdelivr.net/gh/yidafu/nice-beer@dist/build/static/js/main.0225c12e.chunk.js.map",
+    "runtime-main.js": "https://cdn.jsdelivr.net/gh/yidafu/nice-beer@dist/build/static/js/runtime-main.8a442b3f.js",
+    "runtime-main.js.map": "https://cdn.jsdelivr.net/gh/yidafu/nice-beer@dist/build/static/js/runtime-main.8a442b3f.js.map",
+    "static/css/2.1c7ffa40.chunk.css": "https://cdn.jsdelivr.net/gh/yidafu/nice-beer@dist/build/static/css/2.1c7ffa40.chunk.css",
+    "static/js/2.85564489.chunk.js": "https://cdn.jsdelivr.net/gh/yidafu/nice-beer@dist/build/static/js/2.85564489.chunk.js",
+    "static/js/2.85564489.chunk.js.map": "https://cdn.jsdelivr.net/gh/yidafu/nice-beer@dist/build/static/js/2.85564489.chunk.js.map",
+    "index.html": "https://cdn.jsdelivr.net/gh/yidafu/nice-beer@dist/build/index.html",
+    "precache-manifest.739a6ce764ac0a6b117292a418a6903b.js": "https://cdn.jsdelivr.net/gh/yidafu/nice-beer@dist/build/precache-manifest.739a6ce764ac0a6b117292a418a6903b.js",
+    "service-worker.js": "https://cdn.jsdelivr.net/gh/yidafu/nice-beer@dist/build/service-worker.js",
+    "static/css/2.1c7ffa40.chunk.css.map": "https://cdn.jsdelivr.net/gh/yidafu/nice-beer@dist/build/static/css/2.1c7ffa40.chunk.css.map",
+    "static/css/main.d177da67.chunk.css.map": "https://cdn.jsdelivr.net/gh/yidafu/nice-beer@dist/build/static/css/main.d177da67.chunk.css.map",
+    "static/js/2.85564489.chunk.js.LICENSE.txt": "https://cdn.jsdelivr.net/gh/yidafu/nice-beer@dist/build/static/js/2.85564489.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.8a442b3f.js",
+    "static/css/2.1c7ffa40.chunk.css",
+    "static/js/2.85564489.chunk.js",
+    "static/css/main.d177da67.chunk.css",
+    "static/js/main.0225c12e.chunk.js"
+  ]
+}
