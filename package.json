@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@dovyih/nice-drink-cli": "^0.0.1",
+    "@dovyih/nice-drink": "^0.0.1-alpha.1",
     "@types/jest": "24.0.17",
     "@types/js-yaml": "^3.12.1",
     "@types/marked": "^0.6.5",
@@ -34,7 +34,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "PUBLIC_URL=https://cdn.jsdelivr.net/gh/yidafu/nice-beer@dist/build react-scripts build",
     "test": "react-scripts test",
     "eslint": "eslint --ext .ts,.tsx ./src ./cli --fix",
     "eject": "react-scripts eject"

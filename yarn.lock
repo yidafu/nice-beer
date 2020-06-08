@@ -1190,10 +1190,10 @@
   resolved "https://registry.npm.taobao.org/@csstools/normalize.css/download/@csstools/normalize.css-10.1.0.tgz#f0950bba18819512d42f7197e56c518aa491cf18"
   integrity sha1-8JULuhiBlRLUL3GX5WxRiqSRzxg=
 
-"@dovyih/nice-drink-cli@^0.0.1":
-  version "0.0.1"
-  resolved "https://registry.npmjs.org/@dovyih/nice-drink-cli/-/nice-drink-cli-0.0.1.tgz#3a89d913b3349a1585b203f78f7a1b1b95f06f8b"
-  integrity sha512-9ijZ4FzTtMTrkorr8BR+qk/DZiaNazhKgNFW74HgdOjfPpPWchZ71GPxqpGANmuFSFFbnMg1A7G/3wMbf3xEfg==
+"@dovyih/nice-drink@^0.0.1-alpha.1":
+  version "0.0.1-alpha.1"
+  resolved "https://registry.npm.taobao.org/@dovyih/nice-drink/download/@dovyih/nice-drink-0.0.1-alpha.1.tgz?cache=0&sync_timestamp=1591592387895&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40dovyih%2Fnice-drink%2Fdownload%2F%40dovyih%2Fnice-drink-0.0.1-alpha.1.tgz#4ffd9fe4a1b1a7df2eda5c9ad6d81880db0f45a8"
+  integrity sha1-T/2f5KGxp98u2lya1tgYgNsPRag=
   dependencies:
     chalk "^2.4.2"
     commander "^3.0.0"
