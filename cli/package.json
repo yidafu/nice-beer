@@ -1,6 +1,6 @@
 {
-  "name": "@dovyih/nice-drink-cli",
-  "version": "0.0.1",
+  "name": "@dovyih/nice-drink",
+  "version": "0.0.2",
   "description": "nice drick cli",
   "main": "bin/drink.js",
   "files": [
