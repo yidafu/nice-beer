@@ -6,5 +6,6 @@ program
   .parse(process.argv);
 
 // TODO: init if SUMMARY.md doesn't exsit.
+const { args }: { args: string[]} = program;
 
-genContent(getAllMDFilePath());
+genContent(getAllMDFilePath(), program.force);

@@ -1,7 +1,9 @@
 import program from 'commander';
-import {logErrorAndExit, formatDate, getConfig, success} from './utils'
-import { CURR_PATH } from './constant'
 import fs from 'fs';
+import {
+  logErrorAndExit, formatDate, getConfig, success,
+} from './utils';
+import { CURR_PATH } from './constant';
 
 const fsp = fs.promises;
 
@@ -9,7 +11,7 @@ program
   .option('-t --tag', 'tags')
   .parse(process.argv);
 
-const args: string[] = program.args;
+const { args }: { args: string[]} = program;
 
 let fileName: string;
 switch (args.length) {
@@ -28,7 +30,7 @@ switch (args.length) {
 
 const config = getConfig();
 
-function capitalization(str: string): string{
+function capitalization(str: string): string {
   return str[0].toUpperCase() + str.substring(1);
 }
 const today = formatDate(new Date());
@@ -46,14 +48,14 @@ status: draft
 # ${fileName.split('-').map(capitalization).join(' ')}
 
 /* content here */
-`
+`;
 
 const filePath = `${CURR_PATH}/${today}-${fileName}.md`;
 
 // TODO: if file exist
 fsp.writeFile(filePath, postTpl)
   .then(value => {
-    success('create a new post: ' + filePath);
+    success(`create a new post: ${filePath}`);
   }).catch(err => {
     logErrorAndExit(err);
   });

@@ -1,11 +1,17 @@
 import path from 'path';
-import yaml from 'js-yaml';
 import fs from 'fs';
+import { execSync } from 'child_process';
+import debug from 'debug';
+import yaml from 'js-yaml';
+import { AsyncConstructor } from 'async-constructor';
+// eslint-disable-next-line import/no-cycle
 import {
   hasFrontMatter, warning, formatDate, getConfig,
 } from './utils';
 
 const { promises: fsp } = fs;
+
+const log = debug('nice-drink:MarkdownPOst');
 
 export interface FrontMatter {
   title: string;
@@ -17,19 +23,70 @@ export interface FrontMatter {
 
 const FRONT_MATTER_SEPARATOR = '---';
 
-export default class MarkdownPost {
+function getUpdatedAt(filePath: string): Date {
+  const command = `git log --pretty="format:%ci" ${filePath} | head -1`;
+  log(`getCreatedAt: ${command}`);
+  const dateStr = execSync(`git log --pretty="format:%ci" ${filePath} | head -1`).toString();
+  log(`create string: ${dateStr}`);
+  return new Date(dateStr);
+}
+
+
+function getCreatedAt(filePath: string): Date {
+  const command = `git log --reverse --pretty="format:%ci" ${filePath} | head -1`;
+  log(`getUpdatedAt: ${command}`);
+  const dateStr = execSync(command).toString();
+  log(`update string: ${dateStr}`);
+  return new Date(dateStr);
+}
+
+export default class MarkdownPost extends AsyncConstructor {
   private rawContent: string = '';
 
   private content: string = '';
 
-  private filePath: string = '';
+  public filePath: string = '';
 
-  private frontMatter: FrontMatter = {} as FrontMatter;
+  public frontMatter: FrontMatter = {} as FrontMatter;
 
-  constructor(filePath: string, rawContent: string) {
-    this.rawContent = rawContent.trim();
-    this.filePath = filePath;
-    this.parse(rawContent);
+  /**
+   * Async Constructor.
+   * read markdown file from filepath, get front matter info.
+   *
+   * @param {string} filepath
+   * @param {boolean} force force to update markdown file
+   * @memberof MarkdownPost
+   */
+  constructor(filepath: string, force: boolean) {
+    super(async () => {
+      await fsp.readFile(filepath, { encoding: 'utf8' })
+        .then(mardownFile => {
+          if (hasFrontMatter(mardownFile) && !force) {
+            console.log(
+              warning(`${path.relative(process.cwd(), filepath)} already has front matter.`),
+            );
+            return mardownFile;
+          }
+
+          const filename = path.parse(filepath).name;
+          const frontmatter = {} as FrontMatter;
+          frontmatter.title = filename;
+          frontmatter.author = getConfig().author;
+          frontmatter.created = formatDate(getCreatedAt(filepath));
+          frontmatter.modified = formatDate(getUpdatedAt(filepath));
+          frontmatter.status = this.frontMatter.status || 'draft';
+          this.frontMatter = frontmatter;
+
+          this.rawContent = mardownFile.trim();
+          this.filePath = filepath;
+          this.parse(mardownFile);
+
+          const mardownFileWithFrontMatter = this.formatMarkdown();
+
+          fsp.writeFile(filepath, mardownFileWithFrontMatter);
+          return mardownFileWithFrontMatter;
+        });
+    });
   }
 
   private parse(rawContent: string) {
@@ -56,8 +113,7 @@ export default class MarkdownPost {
   }
 
   public format():string {
-    const { frontMatter, rawContent } = this;
-    return MarkdownPost.formatMarkdown(frontMatter, rawContent);
+    return this.formatMarkdown();
   }
 
   public toObject() {
@@ -69,36 +125,7 @@ export default class MarkdownPost {
     };
   }
 
-  /* eslint class-methods-use-this: off */
-  private static formatMarkdown(frontMatter: FrontMatter, content: string) {
-    return `---\n${yaml.dump(frontMatter)}---\n\n${content}`;
-  }
-
-  public static init(filepath: string, force: boolean): Promise<MarkdownPost> {
-    return fsp.readFile(filepath, { encoding: 'utf8' })
-      .then(mardownFile => {
-        if (hasFrontMatter(mardownFile) && !force) {
-          console.log(
-            warning(`${path.relative(process.cwd(), filepath)} already has front matter.`),
-          );
-          return mardownFile;
-        }
-
-        return fsp.stat(filepath)
-          .then(stats => {
-            const { ctime, mtime } = stats;
-            const filename = path.parse(filepath).name;
-            const frontmatter = {} as FrontMatter;
-            frontmatter.title = filename;
-            frontmatter.author = getConfig().author;
-            frontmatter.created = formatDate(ctime);
-            frontmatter.modified = formatDate(mtime);
-
-            const mardownFileWithFrontMatter = this.formatMarkdown(frontmatter, mardownFile);
-
-            fsp.writeFile(filepath, mardownFileWithFrontMatter);
-            return mardownFileWithFrontMatter;
-          });
-      }).then(content => new MarkdownPost(filepath, content));
+  private formatMarkdown() {
+    return `---\n${yaml.dump(this.frontMatter)}---\n\n${this.content}`;
   }
 }

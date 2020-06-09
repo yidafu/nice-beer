@@ -5,11 +5,14 @@ import fs from 'fs';
 import fse from 'fs-extra';
 import glob from 'glob';
 import yaml from 'js-yaml';
-import MarkdownPost from './MarkdownPost.ts';
+// eslint-disable-next-line import/no-cycle
+import MarkdownPost from './MarkdownPost';
 import {
   CURR_PATH, DRINK_YAML, CONTENT_JSON, SUMMARY_MD,
 } from './constant';
 
+
+const fsp = fs.promises;
 
 export enum Mode {
   Gitbook = 'gitbook',
@@ -59,7 +62,7 @@ export function getConfig(): IDrinkConfig {
   function loadDrinkFile(currPath) {
     const drinkFilePath = path.resolve(currPath, DRINK_YAML);
     if (fs.existsSync(drinkFilePath)) {
-      drinkConfig = yaml.load(fs.readFileSync(drinkFilePath));
+      drinkConfig = yaml.load(fs.readFileSync(drinkFilePath).toString());
       drinkConfig.configPath = drinkFilePath;
     } else {
       const parentDir = path.resolve(currPath, '..');
@@ -77,10 +80,10 @@ export function getConfig(): IDrinkConfig {
 }
 
 
-export function getAllMDFilePath() {
+export function getAllMDFilePath(): string[] {
   const { directories, configPath } = getConfig();
   if (directories && Array.isArray(directories) && directories.length) {
-    const filePaths = [];
+    const filePaths: string[] = [];
     directories.forEach(dir => {
       const currPath = path.join(CURR_PATH, dir);
       if (fse.pathExistsSync(currPath) && fs.statSync(currPath).isDirectory()) {
@@ -93,7 +96,7 @@ export function getAllMDFilePath() {
         );
       }
     });
-    filePaths.forEach(function(filepath) {
+    filePaths.forEach(filepath => {
       console.log('will read file: ', filepath);
     });
     return filePaths;
@@ -129,15 +132,16 @@ export function genContentJSON(postPromises: Promise<MarkdownPost>[]) {
     content: [],
   };
   Promise.all(postPromises).then((posts: MarkdownPost[]) => {
-    posts.sort((pre, next) => new Date(next.frontMatter.created).getTime()
-      - new Date(pre.frontMatter.created).getTime()
-    ).filter(post => {
-      return post.frontMatter.status === 'publish';
-    }).forEach(post => {
-      const url = (path.relative(CURR_PATH, post.filePath)).replace('\\', '/');
-      const fileName = path.parse(url).name;
-      contentJSON.content.push({ ...post.frontMatter, filePath: url, fileName });
-    });
+    posts
+      .sort(
+        (pre, next) => new Date(next.frontMatter.created).getTime()
+                        - new Date(pre.frontMatter.created).getTime(),
+      )
+      .filter(post => post.frontMatter.status === 'publish').forEach(post => {
+        const url = (path.relative(CURR_PATH, post.filePath)).replace('\\', '/');
+        const fileName = path.parse(url).name;
+        contentJSON.content.push({ ...post.frontMatter, filePath: url, fileName });
+      });
 
     return fse.writeJSON(
       path.join(CURR_PATH, CONTENT_JSON),
@@ -155,14 +159,15 @@ export function genContentJSON(postPromises: Promise<MarkdownPost>[]) {
  * @param {String[]} filePaths
  * @param {Object} {force = false}
  */
-export function genContent(filePaths) {
+export function genContent(filePaths: string[], force: boolean) {
   const { mode } = getConfig();
   const postPromises = filePaths.map(
-    filepath => MarkdownPost.init(filepath),
+    // FIXME: async contructor type define
+    filepath => new MarkdownPost(filepath, force) as unknown as Promise<MarkdownPost>,
   );
   if (mode.toLowerCase() === Mode.Gitbook) {
     genSummaryMD(postPromises);
   } else if (mode.toLowerCase() === Mode.JSON) {
-    genContentJSON(postPromises);
+    genContentJSON(postPromises as unknown as Promise<MarkdownPost>[]);
   }
 }

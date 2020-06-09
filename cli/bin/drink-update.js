@@ -1,4 +1,4 @@
-
+require('babel-polyfill');
 require('@babel/register')({
   cwd: __dirname,
 
