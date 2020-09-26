@@ -1,4 +1,3 @@
-
 require('@babel/register')({
   cwd: __dirname,
 
@@ -17,5 +16,3 @@ require('@babel/register')({
 
   cache: false,
 });
-
-require('./drink-init.ts');
