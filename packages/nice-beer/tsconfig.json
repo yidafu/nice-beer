@@ -21,6 +21,6 @@
     "jsx": "react"
   },
   "include": [
-    "packages/nice-beer/src"
+    "src"
   ]
 }
