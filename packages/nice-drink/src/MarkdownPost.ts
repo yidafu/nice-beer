@@ -13,12 +13,23 @@ const { promises: fsp } = fs;
 
 const log = debug('nice-drink:MarkdownPOst');
 
-export interface FrontMatter {
+
+export enum PostStatus {
+  PUBLISH = 'publish',
+  DRAFT = 'draft',
+}
+
+export interface IFrontMatter {
   title: string;
   author: string;
   created: string;
   modified: string;
-  status: 'draft' | 'publish';
+  excerpt: string;
+  date: string;
+  tags: string[];
+  status: PostStatus;
+  filepath: string;
+  filename: string;
 }
 
 const FRONT_MATTER_SEPARATOR = '---';
@@ -45,9 +56,9 @@ export default class MarkdownPost extends AsyncConstructor {
 
   private content: string = '';
 
-  public filePath: string = '';
+  public filepath: string = '';
 
-  public frontMatter: FrontMatter = {} as FrontMatter;
+  public frontMatter: IFrontMatter = {} as IFrontMatter;
 
   /**
    * Async Constructor.
@@ -69,7 +80,7 @@ export default class MarkdownPost extends AsyncConstructor {
           }
 
           const filename = path.parse(filepath).name;
-          const frontmatter = {} as FrontMatter;
+          const frontmatter = {} as IFrontMatter;
           frontmatter.title = filename;
           frontmatter.author = getConfig().author;
           frontmatter.created = formatDate(getCreatedAt(filepath));
@@ -78,7 +89,7 @@ export default class MarkdownPost extends AsyncConstructor {
           this.frontMatter = frontmatter;
 
           this.rawContent = mardownFile.trim();
-          this.filePath = filepath;
+          this.filepath = filepath;
           this.parse(mardownFile);
 
           const mardownFileWithFrontMatter = this.formatMarkdown();
@@ -100,7 +111,7 @@ export default class MarkdownPost extends AsyncConstructor {
 
     const separatorEnd = this.rawContent.indexOf(FRONT_MATTER_SEPARATOR, separatorStart + 3);
     const frontMatter = this.rawContent.substring(separatorStart + 3, separatorEnd);
-    this.frontMatter = yaml.safeLoad(frontMatter);
+    this.frontMatter = yaml.safeLoad(frontMatter) as IFrontMatter;
     this.content = this.rawContent.substring(separatorEnd + 3).trim();
   }
 
@@ -108,7 +119,7 @@ export default class MarkdownPost extends AsyncConstructor {
     return !!this.frontMatter;
   }
 
-  public setFrontMatter(fm: FrontMatter) {
+  public setFrontMatter(fm: IFrontMatter) {
     Object.assign(this.frontMatter, fm);
   }
 
@@ -120,8 +131,8 @@ export default class MarkdownPost extends AsyncConstructor {
     return {
       ...this.frontMatter,
       content: this.content,
-      filePath: this.filePath,
-      fileName: this.filePath, // FIXME:
+      filePath: this.filepath,
+      fileName: this.filepath, // FIXME:
     };
   }
 
