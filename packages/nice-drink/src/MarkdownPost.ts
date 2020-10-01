@@ -147,23 +147,20 @@ export async function loadMarkdownFile(filepath: string, force: boolean = false)
   const mardownFile = await fsp.readFile(filepath, { encoding: 'utf-8'});
   const filename = path.parse(filepath).name;
   
-  const post = new MarkdownPost(filename, mardownFile);
+  const markdownPost = new MarkdownPost(filename, mardownFile);
 
   if (hasFrontMatter(mardownFile) && !force) {
     console.log(
       warning(`${path.relative(process.cwd(), filepath)} already has front matter.`),
     );
-    return post.format();
+    return markdownPost;
   }
 
-  post.frontMatter.title = filename;
-  post.frontMatter.author = getConfig().author;
-  post.frontMatter.created = formatDate(getCreatedAt(filepath));
-  post.frontMatter.modified = formatDate(getUpdatedAt(filepath));
-  post.filepath = filepath;
+  markdownPost.frontMatter.title = filename;
+  markdownPost.frontMatter.author = getConfig().author;
+  markdownPost.frontMatter.created = formatDate(getCreatedAt(filepath));
+  markdownPost.frontMatter.modified = formatDate(getUpdatedAt(filepath));
+  markdownPost.filepath = filepath;
 
-
-  const mardownFileWithFrontMatter = post.format();
-
-  return mardownFileWithFrontMatter; 
+  return markdownPost; 
 }
