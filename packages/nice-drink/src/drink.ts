@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 /**
  * generate SUMMARY.md file just like gitbook.
  * .gitignore file will works.

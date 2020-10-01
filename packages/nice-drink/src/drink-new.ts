@@ -13,7 +13,7 @@ program
 
 const { args }: { args: string[]} = program;
 
-let fileName: string;
+let fileName: string = '';
 switch (args.length) {
   case 0: {
     logErrorAndExit('plase enter post name!');
@@ -54,7 +54,7 @@ const filePath = `${CURR_PATH}/${today}-${fileName}.md`;
 
 // TODO: if file exist
 fsp.writeFile(filePath, postTpl)
-  .then(value => {
+  .then(() => {
     success(`create a new post: ${filePath}`);
   }).catch(err => {
     logErrorAndExit(err);

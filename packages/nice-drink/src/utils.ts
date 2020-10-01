@@ -5,8 +5,10 @@ import fs from 'fs';
 import fse from 'fs-extra';
 import glob from 'glob';
 import yaml from 'js-yaml';
+import { FRONT_MATTER_SEPARATOR } from './constant';
+
 // eslint-disable-next-line import/no-cycle
-import MarkdownPost from './MarkdownPost';
+import MarkdownPost, { IFrontMatter, PostStatus } from './MarkdownPost';
 import {
   CURR_PATH, DRINK_YAML, CONTENT_JSON, SUMMARY_MD,
 } from './constant';
@@ -29,7 +31,53 @@ export interface IDrinkConfig {
   configPath: string;
 }
 
-export function hasFrontMatter(content) {
+export interface IMarkdonwPost extends IFrontMatter {
+ content: string;
+}
+
+export interface IContentItem extends IFrontMatter {
+  filepath: string;
+  filename: string;
+}
+
+export interface IJSONContent {
+  title: string;
+  content: IContentItem[];
+}
+
+export function parseMarkdown(rawContent: string) {
+  let markdown: IMarkdonwPost  = {
+    content: '',
+    title: '',
+    author: '',
+    created: '',
+    modified: '',
+    excerpt: '',
+    date: '',
+    tags: [],
+    filepath: '',
+    filename: '',
+    status: PostStatus.DRAFT,
+  };
+  const separatorStart = rawContent.indexOf(FRONT_MATTER_SEPARATOR);
+
+    // front matter doesn't exsit
+    if (separatorStart < 0) {
+      markdown.content = rawContent;
+      return;
+    }
+
+    const separatorEnd = rawContent.indexOf(FRONT_MATTER_SEPARATOR, separatorStart + 3);
+    const frontMatter = rawContent.substring(separatorStart + 3, separatorEnd);
+    const matterObj: IFrontMatter = yaml.safeLoad(frontMatter) as unknown as IFrontMatter;
+
+    Object.assign(markdown, matterObj);
+
+    markdown.content = rawContent.substring(separatorEnd + 3).trim();
+    return markdown;
+}
+
+export function hasFrontMatter(content: string) {
   return !content.trim().indexOf('---');
 }
 
@@ -46,7 +94,7 @@ export function formatDate(dataStr: Date) {
   return dayjs(dataStr).format('YYYY-MM-DD');
 }
 
-function isRoot(filepath) {
+function isRoot(filepath: string) {
   return filepath === '/' || /^[a-zA-Z]:\\$/.test(filepath);
 }
 
@@ -59,7 +107,7 @@ export function getConfig(): IDrinkConfig {
   const currDir = CURR_PATH;
 
 
-  function loadDrinkFile(currPath) {
+  function loadDrinkFile(currPath: string) {
     const drinkFilePath = path.resolve(currPath, DRINK_YAML);
     if (fs.existsSync(drinkFilePath)) {
       drinkConfig = yaml.load(fs.readFileSync(drinkFilePath).toString());
@@ -80,7 +128,7 @@ export function getConfig(): IDrinkConfig {
 }
 
 
-export function getAllMDFilePath(): string[] {
+export function getAllMDFilePath(): string[] | undefined {
   const { directories, configPath } = getConfig();
   if (directories && Array.isArray(directories) && directories.length) {
     const filePaths: string[] = [];
@@ -104,6 +152,7 @@ export function getAllMDFilePath(): string[] {
   logErrorAndExit(
     `${path.relative(CURR_PATH, configPath)} must have 'directories' property and be Array!`,
   );
+  return;
 }
 
 
@@ -112,7 +161,7 @@ export function genSummaryMD(postPromises: Promise<MarkdownPost>[]) {
   Promise.all(postPromises).then(posts => {
     posts.sort((pre, next) => new Date(next.frontMatter.created).getTime()
         - new Date(pre.frontMatter.created).getTime()).forEach(post => {
-      const url = (path.relative(CURR_PATH, post.filePath)).replace('\\', '/');
+      const url = (path.relative(CURR_PATH, post.filepath)).replace('\\', '/');
       summaryMd.push(`* [${post.frontMatter.title}](${url})`);
     });
 
@@ -127,7 +176,7 @@ export function genSummaryMD(postPromises: Promise<MarkdownPost>[]) {
 
 export function genContentJSON(postPromises: Promise<MarkdownPost>[]) {
   const config = getConfig();
-  const contentJSON = {
+  const contentJSON: IJSONContent = {
     title: config.title,
     content: [],
   };
@@ -138,9 +187,14 @@ export function genContentJSON(postPromises: Promise<MarkdownPost>[]) {
                         - new Date(pre.frontMatter.created).getTime(),
       )
       .filter(post => post.frontMatter.status === 'publish').forEach(post => {
-        const url = (path.relative(CURR_PATH, post.filePath)).replace('\\', '/');
-        const fileName = path.parse(url).name;
-        contentJSON.content.push({ ...post.frontMatter, filePath: url, fileName });
+        const url = (path.relative(CURR_PATH, post.filepath)).replace('\\', '/');
+        const filename = path.parse(url).name;
+        const contentItem: IContentItem = {
+          ...post.frontMatter,
+          filepath: url,
+          filename,
+        }
+        contentJSON.content.push(contentItem);
       });
 
     return fse.writeJSON(
@@ -159,7 +213,7 @@ export function genContentJSON(postPromises: Promise<MarkdownPost>[]) {
  * @param {String[]} filePaths
  * @param {Object} {force = false}
  */
-export function genContent(filePaths: string[], force: boolean) {
+export function genContent(filePaths: string[], force: boolean = false) {
   const { mode } = getConfig();
   const postPromises = filePaths.map(
     // FIXME: async contructor type define

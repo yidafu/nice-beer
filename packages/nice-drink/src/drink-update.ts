@@ -1,3 +1,4 @@
+import 'babel-polyfill';
 import program from 'commander';
 import { genContent, getAllMDFilePath } from './utils';
 
@@ -6,6 +7,9 @@ program
   .parse(process.argv);
 
 // TODO: init if SUMMARY.md doesn't exsit.
-const { args }: { args: string[]} = program;
+// const { args }: { args: string[]} = program;
 
-genContent(getAllMDFilePath(), program.force);
+const mdFilepaths = getAllMDFilePath();
+if (mdFilepaths) {
+  genContent(mdFilepaths, program.force);
+}
