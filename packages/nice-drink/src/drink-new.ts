@@ -55,7 +55,7 @@ const filePath = `${CURR_PATH}/${today}-${fileName}.md`;
 // TODO: if file exist
 fsp.writeFile(filePath, postTpl)
   .then(() => {
-    success(`create a new post: ${filePath}`);
+    success(`Create a new post: ${filePath}`);
   }).catch(err => {
     logErrorAndExit(err);
   });

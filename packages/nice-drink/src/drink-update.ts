@@ -1,6 +1,6 @@
 import 'babel-polyfill';
 import program from 'commander';
-import { genContent, getAllMDFilePath } from './utils';
+import { generateContent, getAllMDFilePath } from './utils';
 
 program
   .option('-f, --force', 'force to init SUMMARY.md')
@@ -11,5 +11,5 @@ program
 
 const mdFilepaths = getAllMDFilePath();
 if (mdFilepaths) {
-  genContent(mdFilepaths, program.force);
+  generateContent(mdFilepaths, program.force);
 }
