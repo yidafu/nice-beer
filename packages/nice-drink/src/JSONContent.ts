@@ -1,10 +1,8 @@
 import path from 'path';
-import fse from 'fs-extra';
 // eslint-disable-next-line import/no-cycle
-import MarkdownPost from './MarkdownPost';
+import { MarkdownPost } from './MarkdownPost';
 import {
   CURR_PATH,
-  CONTENT_JSON,
 } from './constant';
 import {
   getConfig,
@@ -18,9 +16,10 @@ export function generateJSONContent(markdownPosts: MarkdownPost[]) {
     title: config.title,
     content: [],
   };
+  const sortBy = config.sortBy;
 
   markdownPosts.sort((pre, next) =>
-      new Date(next.frontMatter.created).getTime() - new Date(pre.frontMatter.created).getTime(),
+      new Date(next.frontMatter[sortBy]).getTime() - new Date(pre.frontMatter[sortBy]).getTime(),
     ).filter(
       post => post.frontMatter.status === 'publish',
     ).forEach(post => {
@@ -35,10 +34,5 @@ export function generateJSONContent(markdownPosts: MarkdownPost[]) {
       contentJSON.content.push(contentItem);
     });
 
-  return fse.writeJSON(
-    path.join(CURR_PATH, CONTENT_JSON),
-    contentJSON, {
-      spaces: 2
-    },
-  );
+  return contentJSON;
 }
