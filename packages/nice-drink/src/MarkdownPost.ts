@@ -3,8 +3,6 @@ import fs from 'fs';
 import { execSync } from 'child_process';
 import debug from 'debug';
 import yaml from 'js-yaml';
-import { AsyncConstructor } from 'async-constructor';
-// eslint-disable-next-line import/no-cycle
 import {
   hasFrontMatter, warning, formatDate, getConfig,
 } from './utils';
@@ -25,7 +23,7 @@ export interface IFrontMatter {
   created: string;
   modified: string;
   excerpt: string;
-  date: string;
+  // date: string;
   tags: string[];
   status: PostStatus;
   filepath: string;
@@ -51,7 +49,13 @@ function getCreatedAt(filePath: string): Date {
   return new Date(dateStr);
 }
 
-export default class MarkdownPost extends AsyncConstructor {
+/**
+ * Parse Markdown file to class MarkdownPost instance
+ *
+ * @export
+ * @class MarkdownPost
+ */
+export class MarkdownPost {
   private rawContent: string = '';
 
   private content: string = '';
@@ -68,39 +72,29 @@ export default class MarkdownPost extends AsyncConstructor {
    * @param {boolean} force force to update markdown file
    * @memberof MarkdownPost
    */
-  constructor(filepath: string, force: boolean) {
-    super(async () => {
-      await fsp.readFile(filepath, { encoding: 'utf8' })
-        .then(mardownFile => {
-          if (hasFrontMatter(mardownFile) && !force) {
-            console.log(
-              warning(`${path.relative(process.cwd(), filepath)} already has front matter.`),
-            );
-            return mardownFile;
-          }
+  constructor(filename: string, mardownFile: string) {
+    this.frontMatter = {} as IFrontMatter;
+    const frontmatter = this.frontMatter;
+    // default front matter
+    frontmatter.title = filename;
+    frontmatter.author = getConfig().author;
+    frontmatter.status = PostStatus.DRAFT;
+    frontmatter.created = formatDate(new Date());
+    frontmatter.modified = formatDate(new Date());
 
-          const filename = path.parse(filepath).name;
-          const frontmatter = {} as IFrontMatter;
-          frontmatter.title = filename;
-          frontmatter.author = getConfig().author;
-          frontmatter.created = formatDate(getCreatedAt(filepath));
-          frontmatter.modified = formatDate(getUpdatedAt(filepath));
-          frontmatter.status = this.frontMatter.status || 'draft';
-          this.frontMatter = frontmatter;
+    this.rawContent = mardownFile.trim();
 
-          this.rawContent = mardownFile.trim();
-          this.filepath = filepath;
-          this.parse(mardownFile);
-
-          const mardownFileWithFrontMatter = this.formatMarkdown();
-
-          fsp.writeFile(filepath, mardownFileWithFrontMatter);
-          return mardownFileWithFrontMatter;
-        });
-    });
+    this.parseMarkdown(mardownFile);
   }
 
-  private parse(rawContent: string) {
+  /**
+   * split front-matter and post context
+   *
+   * @param {string} rawContent
+   * @returns
+   * @memberof MarkdownPost
+   */
+  public parseMarkdown(rawContent: string) {
     const separatorStart = this.rawContent.indexOf(FRONT_MATTER_SEPARATOR);
 
     // front matter doesn't exsit
@@ -110,8 +104,14 @@ export default class MarkdownPost extends AsyncConstructor {
     }
 
     const separatorEnd = this.rawContent.indexOf(FRONT_MATTER_SEPARATOR, separatorStart + 3);
+    if (separatorEnd < 0) {
+      throw new Error(
+        `Syntax Error: Front matter must end with separetor: '${FRONT_MATTER_SEPARATOR}'`);
+    }
     const frontMatter = this.rawContent.substring(separatorStart + 3, separatorEnd);
-    this.frontMatter = yaml.safeLoad(frontMatter) as IFrontMatter;
+
+    Object.assign(this.frontMatter, yaml.safeLoad(frontMatter) as IFrontMatter);
+
     this.content = this.rawContent.substring(separatorEnd + 3).trim();
   }
 
@@ -123,20 +123,47 @@ export default class MarkdownPost extends AsyncConstructor {
     Object.assign(this.frontMatter, fm);
   }
 
+  /**
+   * alias of formatMarkdown
+   *
+   * @returns {string}
+   * @memberof MarkdownPost
+   */
   public format():string {
     return this.formatMarkdown();
-  }
-
-  public toObject() {
-    return {
-      ...this.frontMatter,
-      content: this.content,
-      filePath: this.filepath,
-      fileName: this.filepath, // FIXME:
-    };
   }
 
   private formatMarkdown() {
     return `---\n${yaml.dump(this.frontMatter)}---\n\n${this.content}`;
   }
+
+  public toString(): string {
+    return this.formatMarkdown();
+  }
+}
+
+
+export async function loadMarkdownFile(filepath: string, force: boolean = false) {
+  const mardownFile = await fsp.readFile(filepath, { encoding: 'utf-8'});
+  const filename = path.parse(filepath).name;
+  
+  const post = new MarkdownPost(filename, mardownFile);
+
+  if (hasFrontMatter(mardownFile) && !force) {
+    console.log(
+      warning(`${path.relative(process.cwd(), filepath)} already has front matter.`),
+    );
+    return post.format();
+  }
+
+  post.frontMatter.title = filename;
+  post.frontMatter.author = getConfig().author;
+  post.frontMatter.created = formatDate(getCreatedAt(filepath));
+  post.frontMatter.modified = formatDate(getUpdatedAt(filepath));
+  post.filepath = filepath;
+
+
+  const mardownFileWithFrontMatter = post.format();
+
+  return mardownFileWithFrontMatter; 
 }
