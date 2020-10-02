@@ -35,6 +35,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "PUBLIC_URL=https://cdn.jsdelivr.net/gh/yidafu/nice-beer@dist/build react-scripts build",
+    "build:dev": "react-scripts build",
     "test": "react-scripts test",
     "eslint": "eslint --ext .ts,.tsx ./src ./cli --fix",
     "eject": "react-scripts eject"
