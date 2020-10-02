@@ -22,7 +22,7 @@ jobs:
       with:
         node-version: '14.x'
     - run: yarn
-    - run: yarn build --if-present
+    - run: yarn build
     - run: yarn test
       env:
         CI: true
@@ -41,7 +41,7 @@ jobs:
       with:
         node-version: '14.x'
     - run: yarn
-    - run: yarn build --if-present
+    - run: yarn build
     - run: yarn test
       env:
         CI: true
