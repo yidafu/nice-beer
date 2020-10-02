@@ -4,8 +4,9 @@ import { execSync } from 'child_process';
 import debug from 'debug';
 import yaml from 'js-yaml';
 import {
-  hasFrontMatter, warning, formatDate, getConfig,
+  hasFrontMatter, warning, formatDate,
 } from './utils';
+import { getConfig } from './config';
 
 const { promises: fsp } = fs;
 
