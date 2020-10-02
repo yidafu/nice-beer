@@ -10,16 +10,38 @@ on:
     branches: [ master ]
 
 jobs:
-  build:
+  build-beer:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./packages/nice-beer/
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js 14.x
+      uses: actions/setup-node@v1
+      with:
+        node-version: '14.x'
+    - run: yarn
+    - run: yarn build
+    - run: yarn test
+      env:
+        CI: true
+
+
+  build-drink:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./packages/nice-drink/
 
     steps:
     - uses: actions/checkout@v2
-    - name: Use Node.js 12.x
+    - name: Use Node.js 14.x
       uses: actions/setup-node@v1
       with:
-        node-version: '12.x'
+        node-version: '14.x'
     - run: yarn
-    - run: yarn build --if-present
+    - run: yarn build
+    - run: yarn test
       env:
         CI: true
