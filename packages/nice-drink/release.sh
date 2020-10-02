@@ -18,8 +18,8 @@ then
   then
     echo "Add tag v$VERSION"
     git push origin refs/tags/v$VERSION
-    npm publish --access public --registry https://registry.npmjs.com/
+    npm publish --access public --registry https://registry.npmjs.org/
   else
-    npm publish --tag beta --access public --registry https://registry.npmjs.com/
+    npm publish --tag beta --access public --registry https://registry.npmjs.org/
   fi
 fi
