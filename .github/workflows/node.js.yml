@@ -21,7 +21,6 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: '14.x'
-    - name: building and testing project
     - run: yarn
     - run: yarn build --if-present
     - run: yarn test
@@ -41,7 +40,6 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: '14.x'
-    - name: building and testing project
     - run: yarn
     - run: yarn build --if-present
     - run: yarn test
