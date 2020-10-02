@@ -1,9 +1,10 @@
 import program from 'commander';
 import fs from 'fs';
 import {
-  logErrorAndExit, formatDate, getConfig, success,
+  logErrorAndExit, formatDate, success,
 } from './utils';
 import { CURR_PATH } from './constant';
+import { getConfig } from './config';
 
 const fsp = fs.promises;
 
