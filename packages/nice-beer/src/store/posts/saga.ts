@@ -1,7 +1,7 @@
 import {
   put, takeEvery, call, delay, select,
 } from 'redux-saga/effects';
-import { parseMarkdown } from '@dovyih/nice-drink/lib/utils.js';
+import { MarkdownPost } from 'nice-drink/bin/MarkdownPost';
 import { getContent, getPost } from '../../network';
 import { setContent, setPost, notFoundPost } from './actions';
 import { GET_CONTENT_JSON_REQ, GET_POST_REQ, GetPostAction } from './types';
@@ -27,7 +27,7 @@ export function* getPostQeq(action: GetPostAction) {
     let MdPost: Post = {} as Post;
     if (!p.content) {
       const postContent = yield call(getPost, p.filePath);
-      MdPost = parseMarkdown(postContent);
+      MdPost = new MarkdownPost('',postContent) as unknown as Post;
       MdPost.filePath = p.filePath;
       MdPost.fileName = action.payload;
     } else {

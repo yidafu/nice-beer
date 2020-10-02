@@ -3,7 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@dovyih/nice-drink": "^0.0.1-alpha.8",
     "@types/jest": "24.0.17",
     "@types/js-yaml": "^3.12.1",
     "@types/marked": "^0.6.5",
@@ -20,6 +19,7 @@
     "glob": "^7.1.4",
     "js-yaml": "^3.13.1",
     "marked": "^0.7.0",
+    "nice-drink": "^0.0.3-beta.0",
     "node-sass": "^4.12.0",
     "prismjs": "^1.21.0",
     "react": "^16.9.0",
