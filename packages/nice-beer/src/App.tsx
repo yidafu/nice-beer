@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
-import { useDispatch, Provider } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import Index from './pages/index';
 import PostPage from './pages/post';
 import { getConfig, getContent } from './store/actions';
