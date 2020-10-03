@@ -1,21 +1,30 @@
 import path from 'path';
 import fs from 'fs';
-import { execSync } from 'child_process';
-import debug from 'debug';
+// import debug from 'debug';
 import yaml from 'js-yaml';
 import {
-  hasFrontMatter, warning, formatDate,
+  hasFrontMatter, warning, formatDate, getCreatedAt, getUpdatedAt
 } from './utils';
 import { getConfig } from './config';
 
 const { promises: fsp } = fs;
 
-const log = debug('nice-drink:MarkdownPOst');
+// const log = debug('nice-drink:MarkdownPost');
 
 
 export enum PostStatus {
   PUBLISH = 'publish',
   DRAFT = 'draft',
+}
+
+export interface PlainPost {
+  title: string;
+  content?: string;
+  filepath: string;
+  filename: string;
+  author: string;
+  created: string;
+  modified: string;
 }
 
 export interface IFrontMatter {
@@ -33,22 +42,6 @@ export interface IFrontMatter {
 
 const FRONT_MATTER_SEPARATOR = '---';
 
-function getUpdatedAt(filePath: string): Date {
-  const command = `git log --pretty="format:%ci" ${filePath} | head -1`;
-  log(`getCreatedAt: ${command}`);
-  const dateStr = execSync(`git log --pretty="format:%ci" ${filePath} | head -1`).toString();
-  log(`create string: ${dateStr}`);
-  return new Date(dateStr);
-}
-
-
-function getCreatedAt(filePath: string): Date {
-  const command = `git log --reverse --pretty="format:%ci" ${filePath} | head -1`;
-  log(`getUpdatedAt: ${command}`);
-  const dateStr = execSync(command).toString();
-  log(`update string: ${dateStr}`);
-  return new Date(dateStr);
-}
 
 /**
  * Parse Markdown file to class MarkdownPost instance
@@ -78,7 +71,6 @@ export class MarkdownPost {
     const frontmatter = this.frontMatter;
     // default front matter
     frontmatter.title = filename;
-    frontmatter.author = getConfig().author;
     frontmatter.status = PostStatus.DRAFT;
     frontmatter.created = formatDate(new Date());
     frontmatter.modified = formatDate(new Date());
@@ -95,7 +87,7 @@ export class MarkdownPost {
    * @returns
    * @memberof MarkdownPost
    */
-  public parseMarkdown(rawContent: string) {
+  private parseMarkdown(rawContent: string) {
     const separatorStart = this.rawContent.indexOf(FRONT_MATTER_SEPARATOR);
 
     // front matter doesn't exsit
@@ -107,7 +99,7 @@ export class MarkdownPost {
     const separatorEnd = this.rawContent.indexOf(FRONT_MATTER_SEPARATOR, separatorStart + 3);
     if (separatorEnd < 0) {
       throw new Error(
-        `Syntax Error: Front matter must end with separetor: '${FRONT_MATTER_SEPARATOR}'`);
+        `Syntax Error: Front matter must has with end separetor: '${FRONT_MATTER_SEPARATOR}'`);
     }
     const frontMatter = this.rawContent.substring(separatorStart + 3, separatorEnd);
 
@@ -138,12 +130,28 @@ export class MarkdownPost {
     return `---\n${yaml.dump(this.frontMatter)}---\n\n${this.content}`;
   }
 
+  public toObject(): PlainPost {
+    return {
+      ...this.frontMatter,
+      content: this.content,
+      filepath: this.filepath,
+      filename: this.filepath, // FIXME:
+    };
+  }
+
   public toString(): string {
     return this.formatMarkdown();
   }
 }
 
-
+/**
+ * Node 环境加载, Makrdonw 文件
+ *
+ * @export
+ * @param {string} filepath
+ * @param {boolean} [force=false]
+ * @returns
+ */
 export async function loadMarkdownFile(filepath: string, force: boolean = false) {
   const mardownFile = await fsp.readFile(filepath, { encoding: 'utf-8'});
   const filename = path.parse(filepath).name;

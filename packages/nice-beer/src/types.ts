@@ -1,14 +1,8 @@
-export interface Post {
-  title: string;
-  content?: string;
-  filePath: string;
-  fileName: string;
-  author: string;
-  created: string;
-  modified: string;
-}
+import { MarkdownPost, PlainPost as NicePlainPost } from 'nice-drink/MarkdownPost';
+
+export type PlainPost = NicePlainPost;
 
 export interface IContentJSON {
   title: string;
-  content: Post[];
+  content: PlainPost[];
 }

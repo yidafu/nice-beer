@@ -1,4 +1,9 @@
 #!/usr/bin/env sh
+echo "Build files ..."
+yarn build
+
+
+
 set -e
 echo "Enter release version: "
 read VERSION
@@ -10,6 +15,14 @@ then
   echo "Releasing $VERSION ..."
 
   npm version $VERSION --message "[release] $VERSION"
+
+  echo "Copy README.md to dist/"
+  cp README.md dist/
+  echo "Copy package.json to dist/"
+  cp package.json dist/
+  echo "Go to dist/"
+  cd dist/
+  echo
 
   # publish
   BRANCH=$(git symbolic-ref --short HEAD)

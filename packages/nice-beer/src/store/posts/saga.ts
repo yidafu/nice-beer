@@ -1,12 +1,12 @@
 import {
   put, takeEvery, call, delay, select,
 } from 'redux-saga/effects';
-import { MarkdownPost } from 'nice-drink/bin/MarkdownPost';
+import { MarkdownPost } from 'nice-drink/MarkdownPost';
 import { getContent, getPost } from '../../network';
 import { setContent, setPost, notFoundPost } from './actions';
 import { GET_CONTENT_JSON_REQ, GET_POST_REQ, GetPostAction } from './types';
 import { AppState } from '../main';
-import { Post } from '../../types';
+import { PlainPost } from '../../types';
 
 
 export function* getContentReq() {
@@ -21,15 +21,16 @@ export function* getPostQeq(action: GetPostAction) {
     yield delay(500);
   }
   // FIXME: getPostQeq may been called before SET_CONTENT
-  const posts: Post[] = yield select((state: AppState) => state.posts.list);
-  const p = posts.find(p => p.fileName === action.payload);
+  const posts: PlainPost[] = yield select((state: AppState) => state.posts.list);
+  const p = posts.find(p => p.filename === action.payload);
+  console.log(posts, action);
   if (p) {
-    let MdPost: Post = {} as Post;
+    let MdPost: PlainPost = {} as PlainPost;
     if (!p.content) {
-      const postContent = yield call(getPost, p.filePath);
-      MdPost = new MarkdownPost('',postContent) as unknown as Post;
-      MdPost.filePath = p.filePath;
-      MdPost.fileName = action.payload;
+      const postContent = yield call(getPost, p.filepath);
+      MdPost = (new MarkdownPost('',postContent)).toObject();
+      MdPost.filepath = p.filepath;
+      MdPost.filename = action.payload;
     } else {
       MdPost = p;
     }

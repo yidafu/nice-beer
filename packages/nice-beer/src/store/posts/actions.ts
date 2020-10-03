@@ -7,7 +7,7 @@ import {
   GET_CONTENT_JSON_REQ,
   GET_POST_REQ,
 } from './types';
-import { Post } from '../../types';
+import { PlainPost } from '../../types';
 
 
 export function getContent() {
@@ -16,7 +16,7 @@ export function getContent() {
   };
 }
 
-export function setContent(content: Post[]): SetContentAction {
+export function setContent(content: PlainPost[]): SetContentAction {
   return {
     type: SET_CONTENT,
     payload: content,
@@ -30,7 +30,7 @@ export function getPost(fileName: string) {
   };
 }
 
-export function setPost(post: Post): SetPostAction {
+export function setPost(post: PlainPost): SetPostAction {
   return {
     type: SET_POST,
     payload: post,
