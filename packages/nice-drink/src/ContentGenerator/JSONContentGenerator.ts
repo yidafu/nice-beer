@@ -1,5 +1,6 @@
 import path from 'path';
-import { IFrontMatter, MarkdownPost } from '../MarkdownPost';
+import fs from 'fs';
+import { IFrontMatter, MarkdownPost, IPlainPost } from '../MarkdownPost';
 import {
   CURR_PATH,
 } from '../constant';
@@ -18,12 +19,12 @@ export interface IMarkdonwPost extends IFrontMatter {
  
  export interface IJSONContent {
    title: string;
-   content: IContentItem[];
+   content: IPlainPost[];
  }
  
 class JSONContentGenerator extends ContentGenerator {
 
-  generate(markdownPosts: MarkdownPost[]): string {
+  generate(markdownPosts: MarkdownPost[]): void {
     const config = getConfig();
     const contentJSON: IJSONContent = {
       title: config.title,
@@ -36,22 +37,21 @@ class JSONContentGenerator extends ContentGenerator {
       ).filter(
         post => post.frontMatter.status === 'publish',
       ).forEach(post => {
+        console.log(CURR_PATH, post.filepath ,path.relative(CURR_PATH, post.filepath));
         const url = path.relative(CURR_PATH, post.filepath)
                         .replace('\\', '/'); // compatible with windows
-        const filename = path.parse(url).name;
-        const contentItem: IContentItem = {
-          ...post.frontMatter,
-          filepath: url,
-          filename,
-        };
+        console.log(url);
+
+        const contentItem: IPlainPost = post.toObject();
+        contentItem.filepath = url;
+        contentItem.filename = path.parse(url).name;
         contentJSON.content.push(contentItem);
       });
   
-    return JSON.stringify(contentJSON, null, 2);
+    const JSONFileContent = JSON.stringify(contentJSON, null, 2);
+
+    fs.writeFileSync(CURR_PATH + '/content.json', JSONFileContent);
   }
-}
-export function generateJSONContent() {
- 
 }
 
 export {
