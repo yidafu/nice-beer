@@ -1,8 +1,6 @@
 import React, { useEffect } from 'react';
 import marked from '../../marked';
-// ts-ignore
 import { Post } from '../../types';
-import styles from './article.module.scss';
 
 interface Props extends Post {
 
@@ -15,7 +13,7 @@ const Article: React.FC<Props> = props => {
   });
   return (
     <article
-      className={`markdown-body ${styles.markdownBody}`}
+      className='markdown-body article article__markdown'
       dangerouslySetInnerHTML={{ __html: html }}
     />
   );
