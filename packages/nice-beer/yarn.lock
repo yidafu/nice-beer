@@ -10368,10 +10368,10 @@ next-tick@~1.0.0:
   resolved "https://registry.npm.taobao.org/next-tick/download/next-tick-1.0.0.tgz#ca86d1fe8828169b0120208e3dc8424b9db8342c"
   integrity sha1-yobR/ogoFpsBICCOPchCS524NCw=
 
-nice-drink@0.0.3-beta.5:
-  version "0.0.3-beta.5"
-  resolved "https://registry.npm.taobao.org/nice-drink/download/nice-drink-0.0.3-beta.5.tgz?cache=0&sync_timestamp=1601716034461&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fnice-drink%2Fdownload%2Fnice-drink-0.0.3-beta.5.tgz#b1f804a6c3b06be6216c03bfa6b55996683c2631"
-  integrity sha1-sfgEpsOwa+YhbAO/prVZlmg8JjE=
+nice-drink@0.0.3-beta.7:
+  version "0.0.3-beta.7"
+  resolved "https://registry.npm.taobao.org/nice-drink/download/nice-drink-0.0.3-beta.7.tgz#9d70a7b329fd4805da17d27d4cc5cb429190aec3"
+  integrity sha1-nXCnsyn9SAXaF9J9TMXLQpGQrsM=
   dependencies:
     "@babel/core" "^7.11.6"
     "@babel/plugin-proposal-class-properties" "^7.10.4"
