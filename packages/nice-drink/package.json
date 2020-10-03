@@ -1,13 +1,17 @@
 {
   "name": "nice-drink",
-  "version": "0.0.3-beta.5",
+  "version": "0.0.3-beta.7",
   "description": "nice drick cli",
   "main": "drink.js",
+  "bin": {
+    "drink": "./drink.js"
+  },
   "scripts": {
     "build": "tsc --build ./tsconfig.json",
     "test": "jest"
   },
   "files": [
+    "ContentGenerator",
     "*.js",
     "*.d.ts",
     "*.map"
