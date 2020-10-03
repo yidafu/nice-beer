@@ -1,4 +1,4 @@
-import { Post } from '../../types';
+import { PlainPost } from '../../types';
 
 export const GET_CONTENT_JSON_REQ = 'GET_CONTENT_JSON_REQ';
 
@@ -11,8 +11,8 @@ export const SET_POST = 'SET_POST';
 export const NOT_FOUND_POST = 'NOT_FOUND_POST';
 
 export type PostState = {
-  currentPost: Post | { notFound: boolean };
-  list: Post[];
+  currentPost: PlainPost | { notFound: boolean };
+  list: PlainPost[];
   loaded: boolean;
 };
 
@@ -23,12 +23,12 @@ export interface GetPostAction {
 
 export interface SetContentAction {
   type: typeof SET_CONTENT;
-  payload: Post[];
+  payload: PlainPost[];
 }
 
 export interface SetPostAction {
   type: typeof SET_POST;
-  payload: Post;
+  payload: PlainPost;
 }
 
 export interface NotFoundPost {

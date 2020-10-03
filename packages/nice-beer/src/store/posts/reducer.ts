@@ -8,8 +8,8 @@ const initalState: PostState = {
     author: '',
     created: '',
     modified: '',
-    fileName: '',
-    filePath: '',
+    filename: '',
+    filepath: '',
   },
   list: [],
   loaded: false,
@@ -28,7 +28,7 @@ export default function posts(state = initalState, action: PostActions) {
         currentPost: action.payload,
         loaded: state.loaded,
         list: state.list.map(post => {
-          if (post.filePath === action.payload.filePath) {
+          if (post.filepath === action.payload.filepath) {
             return action.payload;
           }
           return post;

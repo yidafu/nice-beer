@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
 import marked from '../../marked';
-import { Post } from '../../types';
+// ts-ignore
+import { PlainPost } from '../../types';
 
-interface Props extends Post {
+interface Props extends PlainPost {
 
 }
 
