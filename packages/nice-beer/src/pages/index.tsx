@@ -23,4 +23,7 @@ class Index extends React.Component<IIndexProps> {
   }
 }
 
-export default connect((store: AppState) => ({ config: store.config, posts: store.posts.list }), { getContent, getConfig })(Index);
+export default connect(
+  (store: AppState) => ({ config: store.config, posts: store.posts.list }),
+  { getContent, getConfig },
+)(Index);

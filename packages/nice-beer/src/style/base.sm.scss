@@ -31,7 +31,6 @@ $header-sm-font-base: $header-font-base / 2;
   font-size: $header-font-base / 2;
 
   &__body {
-    // margin: 0 auto;
     padding: $post-gap-base / 2;
   }
 
@@ -50,23 +49,12 @@ $header-sm-font-base: $header-font-base / 2;
 .article {
   font-size: $header-font-base / 2;
 
-  &__markdown {
-    // box-sizing: border-box;
-    // min-width: 200px;
-    // max-width: 980px;
-    // margin: 50px auto;
-    // border-radius: 20px;
-    // padding: 45px;
-    // box-shadow: 0px 7px 7px 7px #dfdfdf;
-    // background-color: #fff;
-  }
+  &__markdown {}
 
   @media (max-width: 767px) {
-    .markdownBody {
-      // padding: 15px;
-    }
+    .markdownBody { }
   }
-  
+
 }
 
 }
