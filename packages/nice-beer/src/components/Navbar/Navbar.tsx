@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { AppState } from '../../store/main';
 import { ConfigState } from '../../store/config/types';
-import styles from './navbar.module.scss';
 import { githubConfig } from '../../config';
 
 interface INavbarProps {
@@ -11,12 +10,12 @@ interface INavbarProps {
 }
 
 const Navbar: React.FC<INavbarProps> = props => (
-  <div className={styles.navbar}>
-    <div className={styles.navbarContainer}>
-      <h1 className={styles.navbarTitle}>
+  <div className="navbar navbar__box--shadow">
+    <div className="navbar__box">
+      <h1 className="navbar__title--large">
         <Link to="/">{props.config.title}</Link>
       </h1>
-      <div className={styles.navbarLinks}>
+      <div className="navbar__link">
         <Link to="/">Home</Link>
         {/* <Link to="/about-me">About Me</Link> */}
         <a href={`https://www.github.com/${githubConfig.user}`}>Github</a>
