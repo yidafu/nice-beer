@@ -13,7 +13,7 @@ const Article: React.FC<Props> = props => {
   });
   return (
     <article
-      className='markdown-body article__markdown'
+      className='markdown-body article article__markdown'
       dangerouslySetInnerHTML={{ __html: html }}
     />
   );

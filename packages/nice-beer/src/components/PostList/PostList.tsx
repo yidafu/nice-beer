@@ -9,7 +9,7 @@ export interface IPostListProps {
 }
 
 const PostList: React.FC<IPostListProps> = props => (
-  <div className="post__body">
+  <div className="post post__body">
     {props.posts.map(post => (
       <ListItem {...post}>{post.title}</ListItem>
     ))}
