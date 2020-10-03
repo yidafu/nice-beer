@@ -1,15 +1,16 @@
 {
   "name": "nice-drink",
-  "version": "0.0.3-beta.0",
+  "version": "0.0.3-beta.5",
   "description": "nice drick cli",
-  "main": "bin/drink.js",
+  "main": "drink.js",
   "scripts": {
     "build": "tsc --build ./tsconfig.json",
     "test": "jest"
   },
   "files": [
-    "bin",
-    "lib"
+    "*.js",
+    "*.d.ts",
+    "*.map"
   ],
   "author": "yidafu",
   "license": "MIT",

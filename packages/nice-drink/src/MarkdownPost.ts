@@ -17,6 +17,16 @@ export enum PostStatus {
   DRAFT = 'draft',
 }
 
+export interface PlainPost {
+  title: string;
+  content?: string;
+  filepath: string;
+  filename: string;
+  author: string;
+  created: string;
+  modified: string;
+}
+
 export interface IFrontMatter {
   title: string;
   author: string;
@@ -118,6 +128,15 @@ export class MarkdownPost {
 
   private formatMarkdown() {
     return `---\n${yaml.dump(this.frontMatter)}---\n\n${this.content}`;
+  }
+
+  public toObject(): PlainPost {
+    return {
+      ...this.frontMatter,
+      content: this.content,
+      filepath: this.filepath,
+      filename: this.filepath, // FIXME:
+    };
   }
 
   public toString(): string {
