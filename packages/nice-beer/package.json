@@ -1,0 +1,89 @@
+{
+  "name": "nice-beer",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@primer/octicons-react": "^11.0.0",
+    "axios": "^0.19.0",
+    "chalk": "^2.4.2",
+    "commander": "^3.0.0",
+    "dayjs": "^1.8.15",
+    "fs-extra": "^8.1.0",
+    "github-markdown-css": "^3.0.1",
+    "glob": "^7.1.4",
+    "js-yaml": "^3.13.1",
+    "marked": "^0.7.0",
+    "nice-drink": "^0.0.3-beta.0",
+    "node-sass": "^4.12.0",
+    "normalize.css": "^8.0.1",
+    "prismjs": "^1.21.0",
+    "react": "^16.9.0",
+    "react-dom": "^16.9.0",
+    "react-redux": "^7.1.0",
+    "react-router-dom": "^5.0.1",
+    "react-scripts": "^3.4.1",
+    "redux": "^4.0.4",
+    "redux-logger": "^3.0.6",
+    "redux-saga": "^1.0.5",
+    "typescript": "^4.0.3"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "PUBLIC_URL=https://cdn.jsdelivr.net/gh/yidafu/nice-beer@dist/build react-scripts build",
+    "build:dev": "react-scripts build",
+    "test": "react-scripts test",
+    "eslint": "eslint --ext .ts,.tsx ./src --fix",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.5.5",
+    "@babel/core": "^7.5.5",
+    "@babel/plugin-proposal-class-properties": "^7.5.5",
+    "@babel/preset-env": "^7.5.5",
+    "@babel/preset-typescript": "^7.3.3",
+    "@babel/register": "^7.5.5",
+    "@types/commander": "^2.12.2",
+    "@types/fs-extra": "^8.0.0",
+    "@types/jest": "24.0.17",
+    "@types/js-yaml": "^3.12.1",
+    "@types/marked": "^0.6.5",
+    "@types/node": "12.7.2",
+    "@types/react": "16.9.2",
+    "@types/react-dom": "16.8.5",
+    "@types/react-redux": "^7.1.2",
+    "@types/react-router-dom": "^4.3.4",
+    "@types/redux": "^3.6.0",
+    "@types/redux-logger": "^3.0.7",
+    "@types/redux-saga": "^0.10.5",
+    "@typescript-eslint/eslint-plugin": "^2.0.0",
+    "@typescript-eslint/parser": "^2.0.0",
+    "cz-conventional-changelog": "^3.0.2",
+    "eslint-config-airbnb": "^18.0.1",
+    "eslint-config-airbnb-typescript": "^4.0.1",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-react": "^7.14.3",
+    "lerna": "^3.22.1",
+    "redux-devtools-extension": "^2.13.8"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
+}

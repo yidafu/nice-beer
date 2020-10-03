@@ -1,0 +1,24 @@
+// @see https://github.com/twbs/bootstrap/blob/main/site/data/breakpoints.yml
+@use "sass:map";
+
+$breakpoints: (
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px,
+);
+
+@function breakpoint-min($name) {
+  $min: map-get($breakpoints, $name);
+  @return if($min != 0, $min, null);
+}
+@mixin media-breakpoint-up($name) {
+  $min: breakpoint-min($name);
+  @if $min {
+    @media (max-width: $min) {
+      @content;
+    }
+  } @else {
+    @content;
+  }
+}
