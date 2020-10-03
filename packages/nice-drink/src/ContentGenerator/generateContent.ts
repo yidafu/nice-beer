@@ -49,16 +49,18 @@ export function getAllMDFilePath(): string[] | undefined {
  * @param {String[]} filePaths
  * @param {Object} {force = false}
  */
-export async function generateContent(force: boolean = false): Promise<string | undefined> {
+export async function generateContent(force: boolean = false): Promise<void> {
   const filepaths = getAllMDFilePath();
   if (filepaths) {
     const { mode } = getConfig();
   
     const postPromises = filepaths
       .map(filepath => loadMarkdownFile(filepath, force));
-  
+
     const posts = await Promise.all(postPromises);
-    return contentGeneratorMap.get(mode)!.generate(posts);
+
+    contentGeneratorMap.get(mode)!.generate(posts);
   }
+
   return;
 }

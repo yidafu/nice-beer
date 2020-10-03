@@ -17,7 +17,7 @@ export enum PostStatus {
   DRAFT = 'draft',
 }
 
-export interface PlainPost {
+export interface IPlainPost {
   title: string;
   content?: string;
   filepath: string;
@@ -130,12 +130,12 @@ export class MarkdownPost {
     return `---\n${yaml.dump(this.frontMatter)}---\n\n${this.content}`;
   }
 
-  public toObject(): PlainPost {
+  public toObject(): IPlainPost {
     return {
       ...this.frontMatter,
-      content: this.content,
+      // content: this.content,
       filepath: this.filepath,
-      filename: this.filepath, // FIXME:
+      filename: this.filepath,
     };
   }
 
@@ -158,6 +158,9 @@ export async function loadMarkdownFile(filepath: string, force: boolean = false)
   
   const markdownPost = new MarkdownPost(filename, mardownFile);
 
+  markdownPost.frontMatter.title = filename;
+  markdownPost.filepath = filepath;
+
   if (hasFrontMatter(mardownFile) && !force) {
     console.log(
       warning(`${path.relative(process.cwd(), filepath)} already has front matter.`),
@@ -165,11 +168,9 @@ export async function loadMarkdownFile(filepath: string, force: boolean = false)
     return markdownPost;
   }
 
-  markdownPost.frontMatter.title = filename;
   markdownPost.frontMatter.author = getConfig().author;
   markdownPost.frontMatter.created = formatDate(getCreatedAt(filepath));
   markdownPost.frontMatter.modified = formatDate(getUpdatedAt(filepath));
-  markdownPost.filepath = filepath;
 
   return markdownPost; 
 }

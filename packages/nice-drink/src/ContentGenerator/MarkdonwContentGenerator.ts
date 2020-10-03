@@ -1,11 +1,12 @@
 import path from 'path';
+import fs from 'fs';
 import { MarkdownPost } from '../MarkdownPost';
 import { CURR_PATH } from '../constant';
 import { ContentGenerator } from './ContentGenerator';
 import { getConfig } from '../config';
 
 class MarkdonwContentGenerator extends ContentGenerator {
-  generate(markdownPosts: MarkdownPost[]): string {
+  generate(markdownPosts: MarkdownPost[]): void {
     const config = getConfig();
     const summaryMd = ['# SUMMARY\n'];
     const sortBy = config.sortBy;
@@ -18,7 +19,8 @@ class MarkdonwContentGenerator extends ContentGenerator {
       summaryMd.push(`* [${post.frontMatter.title}](${url})`);
     });
   
-    return summaryMd.join('\n');
+    const markdownFileContent = summaryMd.join('\n');
+    fs.writeFileSync(CURR_PATH + '/SUMMARY.md', markdownFileContent);
   }
 }
 
