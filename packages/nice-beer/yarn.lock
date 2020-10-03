@@ -2501,6 +2501,11 @@
   dependencies:
     "@types/node" ">= 8"
 
+"@primer/octicons-react@^11.0.0":
+  version "11.0.0"
+  resolved "https://registry.npm.taobao.org/@primer/octicons-react/download/@primer/octicons-react-11.0.0.tgz#8171177a55d944c9e6b491c43f2957e86191cfa5"
+  integrity sha1-gXEXelXZRMnmtJHEPylX6GGRz6U=
+
 "@redux-saga/core@^1.1.3":
   version "1.1.3"
   resolved "https://registry.npm.taobao.org/@redux-saga/core/download/@redux-saga/core-1.1.3.tgz#3085097b57a4ea8db5528d58673f20ce0950f6a4"
@@ -10595,6 +10600,11 @@ normalize-url@^3.0.0, normalize-url@^3.3.0:
   version "3.3.0"
   resolved "https://registry.npm.taobao.org/normalize-url/download/normalize-url-3.3.0.tgz#b2e1c4dc4f7c6d57743df733a4f5978d18650559"
   integrity sha1-suHE3E98bVd0PfczpPWXjRhlBVk=
+
+normalize.css@^8.0.1:
+  version "8.0.1"
+  resolved "https://registry.npm.taobao.org/normalize.css/download/normalize.css-8.0.1.tgz#9b98a208738b9cc2634caacbc42d131c97487bf3"
+  integrity sha1-m5iiCHOLnMJjTKrLxC0THJdIe/M=
 
 npm-bundled@^1.0.1:
   version "1.1.1"

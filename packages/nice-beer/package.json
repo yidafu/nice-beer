@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@primer/octicons-react": "^11.0.0",
     "axios": "^0.19.0",
     "chalk": "^2.4.2",
     "commander": "^3.0.0",
@@ -14,6 +15,7 @@
     "marked": "^0.7.0",
     "nice-drink": "^0.0.3-beta.0",
     "node-sass": "^4.12.0",
+    "normalize.css": "^8.0.1",
     "prismjs": "^1.21.0",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
