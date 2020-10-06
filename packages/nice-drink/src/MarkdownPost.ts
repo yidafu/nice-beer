@@ -158,7 +158,7 @@ export async function loadMarkdownFile(filepath: string, force: boolean = false)
   
   const markdownPost = new MarkdownPost(filename, mardownFile);
 
-  markdownPost.frontMatter.title = filename;
+  // markdownPost.frontMatter.title = filename;
   markdownPost.filepath = filepath;
 
   if (hasFrontMatter(mardownFile) && !force) {
