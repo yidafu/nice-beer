@@ -1,4 +1,4 @@
-import { MarkdownPost, PlainPost as NicePlainPost } from 'nice-drink/MarkdownPost';
+import { IPlainPost as NicePlainPost } from 'nice-drink/MarkdownPost';
 
 export type PlainPost = NicePlainPost;
 
