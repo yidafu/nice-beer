@@ -12,7 +12,7 @@
     "github-markdown-css": "^3.0.1",
     "glob": "^7.1.4",
     "js-yaml": "^3.13.1",
-    "marked": "^0.7.0",
+    "marked": "^4.0.10",
     "nice-drink": "0.0.3-beta.7",
     "node-sass": "^4.12.0",
     "normalize.css": "^8.0.1",
